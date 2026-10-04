@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
@@ -13,29 +12,26 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
-    IpcHandler {
-        target: "launcher"
-        function toggle(): void {
-            launcher.visible = !launcher.visible
-            if (launcher.visible) {
-                search.text = ""
-                search.forceActiveFocus()
-            }
+    function toggle() {
+        launcher.visible = !launcher.visible
+        if (launcher.visible) {
+            search.text = ""
+            search.forceActiveFocus()
         }
     }
 
     Rectangle {
         anchors.fill: parent
-        radius: 0
-        color: "#27282c"
-        border.color: "#fd0"
+        radius: 14
+        color: Theme.bg
+        border.color: Theme.accent
         border.width: 2
 
         TextInput {
             id: search
             anchors { top: parent.top; left: parent.left; right: parent.right; margins: 16 }
-            color: "#fff"
-            font.family: "JetBrainsMono Nerd Font"
+            color: Theme.fg
+            font.family: Theme.fontName
             font.pixelSize: 18
             focus: true
             onTextChanged: list.currentIndex = 0
@@ -46,7 +42,7 @@ PanelWindow {
 
             Text {
                 text: "Search apps…"
-                color: "#fff"
+                color: Theme.dim
                 font: search.font
                 visible: search.text === ""
             }
@@ -83,8 +79,8 @@ PanelWindow {
                     anchors.verticalCenter: parent.verticalCenter
                     x: 12
                     text: modelData.name
-                    color: "#cdd6f4"
-                    font.family: "JetBrainsMono Nerd Font"
+                    color: Theme.fg
+                    font.family: Theme.fontName
                     font.pixelSize: 14
                 }
                 MouseArea {
